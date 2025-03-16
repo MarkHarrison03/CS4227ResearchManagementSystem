@@ -5,12 +5,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import {RootState, AppDispatch} from './store';
 import { fetchResearch } from './ResearchSlice';
 import PDFViewer from './PDFViewer';
-
+import ResearchTitle from './ResearchTitle';
+import Timeline from './Timeline';
+import Comments from './Comments';
 const ResearchPage = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { research, status, error } = useSelector((state: RootState) => state.research);
     //const [research, setResearch] = useState<Research | null>(null);
     const researchId = 1;
+
+
+    const [milestones, setMilestones] = useState<{ date: string; description: string }[]>([]);
+    const [showForm, setShowForm] = useState(false);
+    const [milestoneDate, setMilestoneDate] = useState('');
+    const [milestoneDesc, setMilestoneDesc] = useState('');
+
+
+    const [comments, setComments] = useState<{ name: string; message: string }[]>([]);
+    const [commentName, setCommentName] = useState('');
+    const [commentMessage, setCommentMessage] = useState('');
 
     useEffect(() => {
         dispatch(fetchResearch(researchId))
@@ -29,26 +42,38 @@ const ResearchPage = () => {
     if (!research) {
         return <div className="text-center text-gray-500">No research found.</div>;
     }
+    const addMilestone = () => {
+        if (milestoneDate && milestoneDesc) {
+            setMilestones([...milestones, { date: milestoneDate, description: milestoneDesc }]);
+            setMilestoneDate('');
+            setMilestoneDesc('');
+            setShowForm(false);
+        }
+    };
     
+const addComment = () => {
+    if (commentName && commentMessage) {
+        setComments([...comments, { name: commentName, message: commentMessage }]);
+        setCommentName('');
+        setCommentMessage('');
+    }
+}
+
     return (
         <div className="flex w-full h-full ">
             <div className="w-2/3 h-full flex flex-col">
             <PDFViewer pdfUrl={research.pdfUrl} />
             </div>
 
-            <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center py-10">
+            <div className="min-h-screen overflow-y-auto  bg-gray-900 text-white flex flex-col items-center justify-center py-10">
         {/* Header */}
           
 
             <div className="w-full max-w-3xl space-y-6">
             {/* Research Title Card */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
-            <h1 className="text-4xl font-bold text-center mb-8">Research Management</h1>
-                <h2 className="text-2xl font-semibold">{research.title}</h2>
-                <span className="bg-green-500 text-white text-sm font-semibold px-3 py-1 rounded mt-2 inline-block">
-                    {research.status}
-                </span>
-            </div>
+            <ResearchTitle title={research.title} status={research.status} />          
+              </div>
 
             {/* Description Card */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
@@ -57,22 +82,7 @@ const ResearchPage = () => {
             </div>
 
             {/* Timeline Card */}
-            <div className="bg-gray-800 shadow-lg rounded-lg p-6">
-                <h3 className="text-lg font-semibold">Timeline</h3>
-                <div className="grid grid-cols-2 gap-6 mt-2">
-                    <div>
-                        <p className="text-gray-400">Start Date</p>
-                        <p className="text-white">{research.date}</p>
-                    </div>
-                    <div>
-                        <p className="text-gray-400">Deadline</p>
-                        <p className="text-white">{research.deadline}</p>
-                        <span className="bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded mt-1 inline-block">
-                            Approaching
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <Timeline />
 
             {/* Status History Card */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
@@ -93,7 +103,10 @@ const ResearchPage = () => {
                 <p className="text-gray-400">Created: <span className="text-white">{research.date}</span></p>
                 <p className="text-gray-400">Last Updated: <span className="text-white">{research.date}</span></p>
             </div>
-
+          {/* Comment Input Fields */}
+          <div className="mt-4 flex space-x-2">
+             <Comments/>
+</div>
             {/* Action Buttons */}
             <div className="flex justify-between mt-6">
                 <button className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
@@ -110,7 +123,10 @@ const ResearchPage = () => {
             </div>
         </div>
     </div>
-    </div>
+ 
+</div>
+   
+    
     );
 }
     
