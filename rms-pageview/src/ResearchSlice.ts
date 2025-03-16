@@ -73,7 +73,7 @@ const researchSlice = createSlice({
             state.error = action.error.message ?? "unknown error";
         })
         .addCase(fetchAllResearch.fulfilled, (state, action) => {
-            state.allResearch = action.payload; // Store all research in state
+            state.allResearch = action.payload; 
           });
     },
 });

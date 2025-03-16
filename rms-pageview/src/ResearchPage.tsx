@@ -75,12 +75,12 @@ const addComment = () => {
           
 
             <div className="w-full max-w-3xl space-y-6">
-            {/* Research Title Card */}
+            {/* Research Title card */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
             <ResearchTitle title={research.title} status={research.status} />          
               </div>
 
-            {/* Description Card */}
+            {/* Descriptions */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
                 <h3 className="text-lg font-semibold">Description</h3>
                 <p className="text-gray-300">{research.content}</p>
@@ -101,18 +101,18 @@ const addComment = () => {
                 </div>
             </div>
 
-            {/* Project Details Card */}
+            {/* Project deets */}
             <div className="bg-gray-800 shadow-lg rounded-lg p-6">
                 <h3 className="text-lg font-semibold">Project Details</h3>
                 <p className="text-gray-400">Owner: <span className="text-white">testuser</span></p>
                 <p className="text-gray-400">Created: <span className="text-white">{research.date}</span></p>
                 <p className="text-gray-400">Last Updated: <span className="text-white">{research.date}</span></p>
             </div>
-          {/* Comment Input Fields */}
+          {/* Comment*/}
           <div className="mt-4 flex space-x-2">
              <Comments/>
 </div>
-            {/* Action Buttons */}
+            {/*action */}
             <div className="flex justify-between mt-6">
                 <button className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
                     Back to Projects
