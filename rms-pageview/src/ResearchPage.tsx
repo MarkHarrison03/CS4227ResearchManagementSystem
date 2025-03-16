@@ -8,12 +8,17 @@ import PDFViewer from './PDFViewer';
 import ResearchTitle from './ResearchTitle';
 import Timeline from './Timeline';
 import Comments from './Comments';
-const ResearchPage = () => {
+const ResearchPage = ({ selectedResearchId }: { selectedResearchId: number | null }) => {
     const dispatch = useDispatch<AppDispatch>();
     const { research, status, error } = useSelector((state: RootState) => state.research);
     //const [research, setResearch] = useState<Research | null>(null);
-    const researchId = 1;
+    var researchId = 1;
+    if(selectedResearchId === null) {
+        researchId = 1;
+    }else{
+    researchId = selectedResearchId;
 
+}
 
     const [milestones, setMilestones] = useState<{ date: string; description: string }[]>([]);
     const [showForm, setShowForm] = useState(false);
